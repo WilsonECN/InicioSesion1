@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>InisioSesionActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(128,128,128); }
+.s3 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+InisioSesionActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.iniciosesion.wilso.iniciosesion</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.ProgressDialog</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.AsyncTask</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.RequiresApi</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnCompleteListener</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.auth.AuthResult</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">org.json.JSONArray</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">org.json.JSONException</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.io.InputStream</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.io.InputStreamReader</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.io.Reader</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.io.UnsupportedEncodingException</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.net.HttpURLConnection</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.net.URL</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">public class </span><span class="s1">InisioSesionActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+    EditText TxUsuario</span><span class="s0">, </span><span class="s1">TxPass</span><span class="s0">;</span><span class="s1"> 
+    Button btnInicio</span><span class="s0">;</span><span class="s1"> 
+    String Usuario</span><span class="s0">, </span><span class="s1">Pass</span><span class="s0">;</span><span class="s1"> 
+    ProgressDialog pdLoading</span><span class="s0">;</span><span class="s1"> 
+    FirebaseAuth.AuthStateListener mAuthListener</span><span class="s0">;</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        setContentView(R.layout.activity_inisio_sesion)</span><span class="s0">;</span><span class="s1"> 
+        TxPass=findViewById(R.id.TxPass)</span><span class="s0">;</span><span class="s1"> 
+        TxUsuario=findViewById(R.id.TxUsuario)</span><span class="s0">;</span><span class="s1"> 
+        btnInicio=findViewById(R.id.btninicio)</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+        btnInicio.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                String user = TxUsuario.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+                String pass = TxPass.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+                inisioSecion(user</span><span class="s0">,</span><span class="s1">pass)</span><span class="s0">;</span><span class="s1"> 
+ 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+        mAuthListener = </span><span class="s0">new </span><span class="s1">FirebaseAuth.AuthStateListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) { 
+                FirebaseUser user = firebaseAuth.getCurrentUser()</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(user != </span><span class="s0">null</span><span class="s1">){ 
+                    </span><span class="s2">//Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);</span><span class="s1"> 
+                    Toast.makeText(getApplicationContext()</span><span class="s0">,</span><span class="s3">&quot;sesion iniciada con mail: &quot;</span><span class="s1">+user.getEmail()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_LONG) 
+                            .show()</span><span class="s0">;</span><span class="s1"> 
+                    Log.i(</span><span class="s3">&quot;SESION&quot;</span><span class="s0">,</span><span class="s3">&quot;sesion iniciada con mail: &quot;</span><span class="s1">+user.getEmail())</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s2">//startActivity(i);</span><span class="s1"> 
+                    </span><span class="s2">//finish();</span><span class="s1"> 
+                }</span><span class="s0">else </span><span class="s1">{ 
+                    Log.i(</span><span class="s3">&quot;SESION&quot;</span><span class="s0">, </span><span class="s3">&quot;sesion cerrada&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        }</span><span class="s0">;</span><span class="s1"> 
+    } 
+    </span><span class="s0">private void </span><span class="s1">inisioSecion(String id_usuario</span><span class="s0">, </span><span class="s1">String contraseña_usuario){ 
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(id_usuario</span><span class="s0">, </span><span class="s1">contraseña_usuario). 
+                addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;AuthResult&gt;() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;AuthResult&gt; task) { 
+                </span><span class="s0">if </span><span class="s1">(task.isSuccessful()){ 
+                    </span><span class="s2">//Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);</span><span class="s1"> 
+                    </span><span class="s2">//Toast.makeText(getApplicationContext(),&quot;sesion iniciada correctamente&quot;,Toast.LENGTH_LONG).show();</span><span class="s1"> 
+                    Log.i(</span><span class="s3">&quot;SESION&quot;</span><span class="s0">, </span><span class="s3">&quot;sesion iniciada correctamente&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    Toast.makeText(getApplicationContext()</span><span class="s0">,</span><span class="s3">&quot;Sesion iniciada&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_LONG).show()</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s2">//startActivity(i);</span><span class="s1"> 
+                    </span><span class="s2">//finish();</span><span class="s1"> 
+                }</span><span class="s0">else</span><span class="s1">{ 
+                    Toast.makeText(getApplicationContext()</span><span class="s0">,</span><span class="s3">&quot;Verifique los datos&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_LONG).show()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+    } 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onStart() { 
+        </span><span class="s0">super</span><span class="s1">.onStart()</span><span class="s0">;</span><span class="s1"> 
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener)</span><span class="s0">;</span><span class="s1"> 
+    } 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onStop() { 
+        </span><span class="s0">super</span><span class="s1">.onStop()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(mAuthListener != </span><span class="s0">null</span><span class="s1">){ 
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+} 
+</span></pre>
+</body>
+</html>
