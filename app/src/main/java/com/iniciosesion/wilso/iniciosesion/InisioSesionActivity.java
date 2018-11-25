@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.iniciosesion.wilso.iniciosesion.Objetos.AdaptadorCat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,12 +68,12 @@ public class InisioSesionActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null){
-                    //Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);
+                    Intent i = new Intent(InisioSesionActivity.this, CategoriasActivity.class);
                     Toast.makeText(getApplicationContext(),"sesion iniciada con mail: "+user.getEmail(),Toast.LENGTH_LONG)
                             .show();
                     Log.i("SESION","sesion iniciada con mail: "+user.getEmail());
-                    //startActivity(i);
-                    //finish();
+                    startActivity(i);
+                    finish();
                 }else {
                     Log.i("SESION", "sesion cerrada");
                 }
@@ -85,12 +86,12 @@ public class InisioSesionActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    //Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);
+                    Intent i = new Intent(InisioSesionActivity.this, CategoriasActivity.class);
                     //Toast.makeText(getApplicationContext(),"sesion iniciada correctamente",Toast.LENGTH_LONG).show();
                     Log.i("SESION", "sesion iniciada correctamente");
-                    Toast.makeText(getApplicationContext(),"Sesion iniciada",Toast.LENGTH_LONG).show();
-                    //startActivity(i);
-                    //finish();
+                    //Toast.makeText(getApplicationContext(),"Sesion iniciada",Toast.LENGTH_LONG).show();
+                    startActivity(i);
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"Verifique los datos",Toast.LENGTH_LONG).show();
                 }

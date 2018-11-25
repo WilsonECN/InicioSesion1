@@ -1,0 +1,358 @@
+Index: app/src/main/res/layout/activity_productos.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_productos.xml	(revision )
++++ app/src/main/res/layout/activity_productos.xml	(revision )
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context="com.iniciosesion.wilso.iniciosesion.ProductosActivity">
++
++    <android.support.v7.widget.RecyclerView
++        android:id="@+id/RV"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" />
++</LinearLayout>
+Index: app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/Productos.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/Productos.java	(revision )
++++ app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/Productos.java	(revision )
+@@ -0,0 +1,25 @@
++package com.iniciosesion.wilso.iniciosesion.Objetos;
++
++public class Productos
++{
++    String nombre;
++
++    public Productos()
++    {
++    }
++
++    public Productos(String paramString)
++    {
++        this.nombre = paramString;
++    }
++
++    public String getNombre()
++    {
++        return this.nombre;
++    }
++
++    public void setNombre(String paramString)
++    {
++        this.nombre = paramString;
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/row_productos.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/row_productos.xml	(revision )
++++ app/src/main/res/layout/row_productos.xml	(revision )
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical">
++
++        <TextView
++            android:id="@+id/txProducto"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_margin="10sp"
++            android:background="@color/colorPrimaryDark"
++            android:gravity="center_horizontal"
++            android:text="txProducto"
++            android:textColor="@color/common_google_signin_btn_text_dark_focused"
++            android:textSize="25dp"
++            android:textStyle="bold" />
++    </LinearLayout>
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n    <color name=\"colorPrimary\">#3F51B5</color>\n    <color name=\"colorPrimaryDark\">#303F9F</color>\n    <color name=\"colorAccent\">#FF4081</color>\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision 76c3d3b3c97264384492a86b0702d03e0e992e84)
++++ app/src/main/res/values/colors.xml	(revision )
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+     <color name="colorPrimary">#3F51B5</color>
+-    <color name="colorPrimaryDark">#303F9F</color>
++    <color name="colorPrimaryDark">#616fc9</color>
+     <color name="colorAccent">#FF4081</color>
+ </resources>
+Index: app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/AdaptadorProduc.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/AdaptadorProduc.java	(revision )
++++ app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/AdaptadorProduc.java	(revision )
+@@ -0,0 +1,63 @@
++package com.iniciosesion.wilso.iniciosesion.Objetos;
++
++import android.support.v7.widget.RecyclerView;
++import android.support.v7.widget.RecyclerView.Adapter;
++import android.support.v7.widget.RecyclerView.ViewHolder;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.View.OnClickListener;
++import android.view.ViewGroup;
++import android.widget.TextView;
++
++import com.iniciosesion.wilso.iniciosesion.R;
++
++import java.util.List;
++
++public class AdaptadorProduc extends RecyclerView.Adapter<AdaptadorProduc.ProductosViewHolder> implements View.OnClickListener
++{
++    private View.OnClickListener listener;
++    List<Productos> productos;
++
++    public AdaptadorProduc(List<Productos> paramList)
++    {
++        this.productos = paramList;
++    }
++
++    public int getItemCount()
++    {
++        return this.productos.size();
++    }
++
++    public void onBindViewHolder(ProductosViewHolder paramProductosViewHolder, int paramInt)
++    {
++        Productos localProductos = (Productos)this.productos.get(paramInt);
++        paramProductosViewHolder.txProducto.setText(localProductos.getNombre());
++    }
++
++    public void onClick(View paramView)
++    {
++        if (this.listener != null)
++            this.listener.onClick(paramView);
++    }
++
++    public ProductosViewHolder onCreateViewHolder(ViewGroup paramViewGroup, int paramInt)
++    {
++        View localView = LayoutInflater.from(paramViewGroup.getContext()).inflate(R.layout.row_productos, paramViewGroup, false);
++        localView.setOnClickListener(this);
++        return new ProductosViewHolder(localView);
++    }
++
++    public void setOnClickListener(View.OnClickListener paramOnClickListener)
++    {
++        this.listener = paramOnClickListener;
++    }
++
++    public class ProductosViewHolder extends RecyclerView.ViewHolder {
++        TextView txProducto;
++
++        public ProductosViewHolder(View itemView) {
++            super(itemView);
++            txProducto = itemView.findViewById(R.id.txProducto);
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/iniciosesion/wilso/iniciosesion/InisioSesionActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.iniciosesion.wilso.iniciosesion;\n\nimport android.app.ProgressDialog;\nimport android.content.Intent;\nimport android.os.AsyncTask;\nimport android.os.Build;\nimport android.support.annotation.NonNull;\nimport android.support.annotation.RequiresApi;\nimport android.support.v7.app.AppCompatActivity;\nimport android.os.Bundle;\nimport android.util.Log;\nimport android.view.View;\nimport android.widget.Button;\nimport android.widget.EditText;\nimport android.widget.Toast;\n\nimport com.google.android.gms.tasks.OnCompleteListener;\nimport com.google.android.gms.tasks.Task;\nimport com.google.firebase.auth.AuthResult;\nimport com.google.firebase.auth.FirebaseAuth;\nimport com.google.firebase.auth.FirebaseUser;\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.DatabaseError;\nimport com.google.firebase.database.DatabaseReference;\nimport com.google.firebase.database.FirebaseDatabase;\nimport com.google.firebase.database.ValueEventListener;\n\nimport org.json.JSONArray;\nimport org.json.JSONException;\n\nimport java.io.IOException;\nimport java.io.InputStream;\nimport java.io.InputStreamReader;\nimport java.io.Reader;\nimport java.io.UnsupportedEncodingException;\nimport java.net.HttpURLConnection;\nimport java.net.URL;\n\npublic class InisioSesionActivity extends AppCompatActivity {\n    EditText TxUsuario, TxPass;\n    Button btnInicio;\n    String Usuario, Pass;\n    ProgressDialog pdLoading;\n    FirebaseAuth.AuthStateListener mAuthListener;\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_inisio_sesion);\n        TxPass=findViewById(R.id.TxPass);\n        TxUsuario=findViewById(R.id.TxUsuario);\n        btnInicio=findViewById(R.id.btninicio);\n\n\n        btnInicio.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                String user = TxUsuario.getText().toString();\n                String pass = TxPass.getText().toString();\n                inisioSecion(user,pass);\n\n            }\n        });\n\n\n        mAuthListener = new FirebaseAuth.AuthStateListener() {\n            @Override\n            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {\n                FirebaseUser user = firebaseAuth.getCurrentUser();\n                if (user != null){\n                    //Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);\n                    Toast.makeText(getApplicationContext(),\"sesion iniciada con mail: \"+user.getEmail(),Toast.LENGTH_LONG)\n                            .show();\n                    Log.i(\"SESION\",\"sesion iniciada con mail: \"+user.getEmail());\n                    //startActivity(i);\n                    //finish();\n                }else {\n                    Log.i(\"SESION\", \"sesion cerrada\");\n                }\n            }\n        };\n    }\n    private void inisioSecion(String id_usuario, String contraseña_usuario){\n        FirebaseAuth.getInstance().signInWithEmailAndPassword(id_usuario, contraseña_usuario).\n                addOnCompleteListener(new OnCompleteListener<AuthResult>() {\n            @Override\n            public void onComplete(@NonNull Task<AuthResult> task) {\n                if (task.isSuccessful()){\n                    //Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);\n                    //Toast.makeText(getApplicationContext(),\"sesion iniciada correctamente\",Toast.LENGTH_LONG).show();\n                    Log.i(\"SESION\", \"sesion iniciada correctamente\");\n                    Toast.makeText(getApplicationContext(),\"Sesion iniciada\",Toast.LENGTH_LONG).show();\n                    //startActivity(i);\n                    //finish();\n                }else{\n                    Toast.makeText(getApplicationContext(),\"Verifique los datos\",Toast.LENGTH_LONG).show();\n                }\n            }\n        });\n    }\n    @Override\n    protected void onStart() {\n        super.onStart();\n        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);\n    }\n    @Override\n    protected void onStop() {\n        super.onStop();\n        if (mAuthListener != null){\n            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/iniciosesion/wilso/iniciosesion/InisioSesionActivity.java	(revision 76c3d3b3c97264384492a86b0702d03e0e992e84)
++++ app/src/main/java/com/iniciosesion/wilso/iniciosesion/InisioSesionActivity.java	(revision )
+@@ -67,11 +67,10 @@
+             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                 if (user != null){
+-                    //Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);
+-                    Toast.makeText(getApplicationContext(),"sesion iniciada con mail: "+user.getEmail(),Toast.LENGTH_LONG)
+-                            .show();
++                    Intent i = new Intent(InisioSesionActivity.this, ProductosActivity.class);
++                    //Toast.makeText(getApplicationContext(),"sesion iniciada con mail: "+user.getEmail(),Toast.LENGTH_LONG).show();
+                     Log.i("SESION","sesion iniciada con mail: "+user.getEmail());
+-                    //startActivity(i);
++                    startActivity(i);
+                     //finish();
+                 }else {
+                     Log.i("SESION", "sesion cerrada");
+@@ -85,11 +84,11 @@
+             @Override
+             public void onComplete(@NonNull Task<AuthResult> task) {
+                 if (task.isSuccessful()){
+-                    //Intent i = new Intent(inicioSesionActivity.this, DocActivity.class);
++                    Intent i = new Intent(InisioSesionActivity.this, ProductosActivity.class);
+                     //Toast.makeText(getApplicationContext(),"sesion iniciada correctamente",Toast.LENGTH_LONG).show();
+                     Log.i("SESION", "sesion iniciada correctamente");
+                     Toast.makeText(getApplicationContext(),"Sesion iniciada",Toast.LENGTH_LONG).show();
+-                    //startActivity(i);
++                    startActivity(i);
+                     //finish();
+                 }else{
+                     Toast.makeText(getApplicationContext(),"Verifique los datos",Toast.LENGTH_LONG).show();
+Index: app/src/main/java/com/iniciosesion/wilso/iniciosesion/ProductosActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/iniciosesion/wilso/iniciosesion/ProductosActivity.java	(revision )
++++ app/src/main/java/com/iniciosesion/wilso/iniciosesion/ProductosActivity.java	(revision )
+@@ -0,0 +1,83 @@
++package com.iniciosesion.wilso.iniciosesion;
++
++import android.content.Intent;
++import android.os.Bundle;
++import android.support.v7.app.AppCompatActivity;
++import android.support.v7.widget.LinearLayoutManager;
++import android.support.v7.widget.RecyclerView;
++import android.view.View;
++import android.view.View.OnClickListener;
++import android.widget.TextView;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++import com.google.firebase.database.ValueEventListener;
++import com.iniciosesion.wilso.iniciosesion.Objetos.AdaptadorProduc;
++import com.iniciosesion.wilso.iniciosesion.Objetos.Productos;
++import java.util.ArrayList;
++import java.util.Iterator;
++import java.util.List;
++
++public class ProductosActivity extends AppCompatActivity
++{
++    String CatSelect;
++    DatabaseReference Producto;
++    AdaptadorProduc adaptadorProduc;
++    Bundle dato;
++    List<Productos> productos;
++    TextView prueba;
++    RecyclerView rv;
++
++    protected void onCreate(Bundle paramBundle)
++    {
++        super.onCreate(paramBundle);
++        setContentView(R.layout.activity_productos);
++        dato = getIntent().getExtras();
++        CatSelect = dato.getString("Producto");
++        rv = ((RecyclerView)findViewById(R.id.RV));
++        productos = new ArrayList();
++        adaptadorProduc = new AdaptadorProduc(this.productos);
++        rv.setLayoutManager(new LinearLayoutManager(this));
++        Producto = FirebaseDatabase.getInstance().getReference().child("Categorias").child("Pan").child("Productos");
++        Producto.addValueEventListener(new ValueEventListener()
++        {
++            public void onCancelled(DatabaseError paramAnonymousDatabaseError)
++            {
++            }
++
++            public void onDataChange(DataSnapshot paramAnonymousDataSnapshot)
++            {
++                ProductosActivity.this.adaptadorProduc.setOnClickListener(new View.OnClickListener()
++                {
++                    public void onClick(View paramAnonymous2View)
++                    {
++                        String str = ((Productos)ProductosActivity.this.productos.get(ProductosActivity.this.rv.getChildAdapterPosition(paramAnonymous2View))).getNombre();
++                        //Intent localIntent = new Intent(ProductosActivity.this, PerfilActivity.class);
++                        //localIntent.putExtra("Producto", str);
++                        //localIntent.putExtra("Categoria", ProductosActivity.this.CatSelect);
++                        //ProductosActivity.this.startActivity(localIntent);
++                    }
++                });
++            }
++        });
++        rv.setAdapter(adaptadorProduc);
++        Producto.addValueEventListener(new ValueEventListener() {
++            @Override
++            public void onDataChange(DataSnapshot dataSnapshot) {
++                productos.removeAll(productos);
++                for (DataSnapshot snapshot:
++                        dataSnapshot.getChildren()) {
++                    Productos productos1 = snapshot.getValue(Productos.class);
++                    productos.add(productos1);
++                }
++                adaptadorProduc.notifyDataSetChanged();
++            }
++
++            @Override
++            public void onCancelled(DatabaseError databaseError) {
++
++            }
++        });
++    }
++}
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.iniciosesion.wilso.iniciosesion\">\n\n    <application\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <activity android:name=\".InisioSesionActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 76c3d3b3c97264384492a86b0702d03e0e992e84)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -16,6 +16,7 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
++        <activity android:name=".ProductosActivity"></activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/Categorias.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/Categorias.java	(revision )
++++ app/src/main/java/com/iniciosesion/wilso/iniciosesion/Objetos/Categorias.java	(revision )
+@@ -0,0 +1,25 @@
++package com.iniciosesion.wilso.iniciosesion.Objetos;
++
++public class Categorias
++{
++    String NomCategoria;
++
++    public Categorias()
++    {
++    }
++
++    public Categorias(String paramString)
++    {
++        this.NomCategoria = paramString;
++    }
++
++    public String getNomCategoria()
++    {
++        return this.NomCategoria;
++    }
++
++    public void setNomCategoria(String paramString)
++    {
++        this.NomCategoria = paramString;
++    }
++}
+\ No newline at end of file
